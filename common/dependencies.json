@@ -8,15 +8,13 @@
             },
             "add": {
                 "imports": "isort -E pyproject",
-                "formatting": "black --allow-prereleases",
+                "typing": "mypy",
+                "formatting": "black",
                 "unit testing": "pytest pytest-mock xdoctest",
                 "test coverage": "pytest-cov coverage",
-                "test automation": "tox",
                 "styling": "flake8 flake8-docstrings darglint pydocstyle",
-                "documentation": "sphinx sphinx_rtd_theme",
-                "release": "towncrier"
+                "version control":"pre-commit"
             }
         }
-    }
-    
+    }    
 }

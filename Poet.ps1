@@ -33,17 +33,21 @@ $dependencies | Format-Table -AutoSize
 
 mkdir tests\resources | Out-Null
 
-Write-Host $Prefix "Setting license and readme"
-Copy-Item $PSScriptRoot/common/LICENSE | Out-Null
-Copy-Item $PSScriptRoot/common/README.md | Out-Null
+Write-Host $Prefix "Setting license, readme, gitignore, pre-commit config"
+Copy-Item $PSScriptRoot/common/* | Out-Null
 
 Write-Host $Prefix "Initialising git repo"
 poetry run git init | Out-Null
-Remove-Item "README.rst" -Recurse -Force
+Remove-Item "README.rst" -Force
 
-Write-Host $Prefix "making initial commit"
+Write-Host $Prefix "Making initial commit"
 poetry run git add . | Out-Null
 poetry run git commit -m "initial commit" | Out-Null
+
+Write-Host $Prefix "Installing pre-commit hooks"
+poetry run pre-commit install | Out-Null
+Write-Host $Prefix "Running pre-commit hooks"
+poetry run pre-commit run --all-files
 
 $Poetryenv = poetry env info --path
 Write-Host $Prefix "Virtualenv location:" $Poetryenv
@@ -51,7 +55,7 @@ Write-Host $Prefix "Virtualenv location:" $Poetryenv
 # Get-Content -Raw -Path "pyproject.toml" | Write-Host
 # Write-Host $Prefix "Output structure:"
 # tree /f
-# Set-Location $StartDir
-# Remove-Item $ProjectName -Recurse -Force
 
+Set-Location $StartDir
+# Remove-Item $ProjectName -Recurse -Force
 Write-Host $Prefix "Composition complete."
