@@ -1,16 +1,17 @@
 {
     "quiet": true,
     "env": {
-        "prod": {},
+        "prod": {
+            "remove": {},
+            "add": {}
+        },
         "dev": {
-            "remove": {
-                "pre-baked": "pytest"
-            },
+            "remove": {},
             "add": {
                 "imports": "isort -E pyproject",
                 "typing": "mypy",
                 "formatting": "black",
-                "unit testing": "pytest pytest-mock xdoctest",
+                "unit testing": "pytest@latest pytest-mock xdoctest",
                 "test coverage": "pytest-cov coverage",
                 "styling": "flake8 flake8-docstrings darglint pydocstyle",
                 "version control":"pre-commit"
