@@ -4,29 +4,34 @@ default_stages: [commit]
 repos:
 -   repo: local
     hooks:
+
     - id: mypy
       name: mypy
       language: system
       entry: poetry run mypy
       types: [python]
       exclude: tests/
+
     - id: isort
       name: isort
       entry: poetry run isort
       language: system
       types: [python]
       additional_dependencies: ['toml']
+
     - id: flake8
       name: flake8
       language: system
       entry: poetry run flake8
       types: [python]
       additional_dependencies: ['flake8-docstrings', 'darglint']
+
     - id: black
       name: black
       language: system
       entry: poetry run black
       types: [python]
+
     - id: pytest
       name: pytest
       language: system
