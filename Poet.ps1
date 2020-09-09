@@ -10,6 +10,8 @@ $StartDir = Get-Location
 Write-Host $Prefix "Creating new project at $StartDir\$ProjectName"
 poetry new $ProjectName | Out-Null
 Set-Location $ProjectName
+$Poetryenv = poetry env info --path
+Write-Host $Prefix "Virtualenv location:" $Poetryenv
 
 Write-Host $Prefix "Adding project dependencies"
 $json = Get-Content -Raw -Path $PSScriptRoot/dependencies.json | ConvertFrom-Json
@@ -48,13 +50,7 @@ poetry run pre-commit install | Out-Null
 Write-Host $Prefix "Running pre-commit hooks"
 poetry run pre-commit run --all-files
 
-$Poetryenv = poetry env info --path
-Write-Host $Prefix "Virtualenv location:" $Poetryenv
-
-# Get-Content -Raw -Path "pyproject.toml" | Write-Host
-# Write-Host $Prefix "Output structure:"
-# tree /f
-
 Set-Location $StartDir
-# Remove-Item $ProjectName -Recurse -Force
 Write-Host $Prefix "Composition complete."
+
+# Remove-Item $ProjectName -Recurse -Force
