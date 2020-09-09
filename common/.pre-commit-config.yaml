@@ -38,4 +38,4 @@ repos:
       entry: poetry run pytest -v --cov tests/ --cov-fail-under=90
       pass_filenames: false
       always_run: true
-    #   stages: [push]
+      stages: [push]
