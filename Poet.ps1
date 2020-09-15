@@ -15,23 +15,23 @@ Write-Host $Prefix "Virtualenv location:" $Poetryenv
 
 Write-Host $Prefix "Adding project dependencies"
 $json = Get-Content -Raw -Path $PSScriptRoot/dependencies.json | ConvertFrom-Json
-$quiet = If ($json.quiet -eq "true") {" --quiet"} Else {""}
+$quiet = If ($json.quiet -eq "true") { " --quiet" } Else { "" }
 $dependencies = @()
 foreach ($env in $json.env.PSObject.Properties) {
     foreach ($action in $env.Value.PSObject.Properties) {
-        $dev = If ($env.Name -eq "dev") {"--dev "} Else {""}
+        $dev = If ($env.Name -eq "dev") { "--dev " } Else { "" }
         foreach ($group in $action.Value.PSObject.Properties) {
             $dependencies += [PSCustomObject]@{
-                Env = $env.Name
-                Action = $action.Name
-                Group = $group.Name
+                Env          = $env.Name
+                Action       = $action.Name
+                Group        = $group.Name
                 Dependencies = $group.Value
             }
             Invoke-Expression -Command $("poetry {0} {1}{2}{3}" -f $action.Name, $dev, $group.Value, $quiet)
         }
     }
 }
-$dependencies | Format-Table -AutoSize 
+$dependencies | Format-Table -AutoSize
 
 mkdir tests\resources | Out-Null
 

@@ -1,21 +1,21 @@
 {
-    "quiet": true,
-    "env": {
-        "prod": {
-            "remove": {},
-            "add": {}
-        },
-        "dev": {
-            "remove": {},
-            "add": {
-                "imports": "isort -E pyproject",
-                "typing": "mypy",
-                "formatting": "black",
-                "unit testing": "pytest@latest pytest-mock xdoctest",
-                "test coverage": "pytest-cov coverage",
-                "styling": "flake8 flake8-docstrings darglint pydocstyle",
-                "version control":"pre-commit"
-            }
-        }
-    }    
+  "quiet": true,
+  "env": {
+    "prod": {
+      "remove": {},
+      "add": {}
+    },
+    "dev": {
+      "remove": {},
+      "add": {
+        "imports": "isort -E pyproject",
+        "typing": "mypy",
+        "formatting": "black",
+        "unit testing": "pytest@latest pytest-mock xdoctest",
+        "test coverage": "pytest-cov coverage",
+        "styling": "flake8 flake8-docstrings darglint pydocstyle",
+        "version control": "pre-commit"
+      }
+    }
+  }
 }
