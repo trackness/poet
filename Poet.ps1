@@ -10,8 +10,9 @@ $StartDir = Get-Location
 Write-Host $Prefix "Creating new project at $StartDir\$ProjectName"
 poetry new $ProjectName | Out-Null
 Set-Location $ProjectName
-$Poetryenv = poetry env info --path
-Write-Host $Prefix "Virtualenv location:" $Poetryenv
+(Get-Content "$projectName\__init__.py").replace("'", '"') | Set-Content "$projectName\__init__.py"
+(Get-Content "tests\test_$projectName.py").replace("'", '"') | Set-Content "tests\test_$projectName.py"
+Write-Host $Prefix "Virtualenv location:" (poetry env info --path)
 
 Write-Host $Prefix "Adding project dependencies"
 $json = Get-Content -Raw -Path $PSScriptRoot/dependencies.json | ConvertFrom-Json
@@ -41,14 +42,12 @@ Copy-Item $PSScriptRoot/common/* | Out-Null
 Write-Host $Prefix "Initialising git repo"
 poetry run git init | Out-Null
 
+Write-Host $Prefix "Installing pre-commit hooks"
+poetry run pre-commit install | Out-Null
+
 Write-Host $Prefix "Making initial commit"
 poetry run git add . | Out-Null
 poetry run git commit -m "initial commit" | Out-Null
-
-Write-Host $Prefix "Installing pre-commit hooks"
-poetry run pre-commit install | Out-Null
-Write-Host $Prefix "Running pre-commit hooks"
-poetry run pre-commit run --all-files
 
 Set-Location $StartDir
 Write-Host $Prefix "Composition complete."
